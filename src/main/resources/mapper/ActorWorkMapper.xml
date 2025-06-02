@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ActorWorkMapper">
+    <!-- 根据演员ID查询作品 -->
+    <select id="getWorksByActorId" resultType="com.javaee.po.Work">
+        SELECT w.* 
+        FROM work w
+        JOIN actor_work aw ON w.work_id = aw.work_id
+        WHERE aw.actor_id = #{actorId}
+    </select>
+
+    <!-- 更新演员作品 -->
+    <update id="updateWork">
+        DELETE FROM actor_work WHERE actor_id = #{actorId};
+        INSERT INTO actor_work (actor_id, work_id)
+        VALUES 
+        <foreach collection="workIds" item="workId" separator=",">
+            (#{actorId}, #{workId})
+        </foreach>
+    </update>
+
+    <insert id="insert">
+        INSERT INTO actor_work (actor_id, work_id)
+        VALUES (#{actorId}, #{workId})
+    </insert>
+    
+    <delete id="deleteActorWork">
+        DELETE FROM actor_work 
+        WHERE actor_id = #{actorId} AND work_id = #{workId}
+    </delete>
+
+    <delete id="deleteByActorId">
+        DELETE FROM actor_work WHERE actor_id = #{actorId}
+    </delete>       
+</mapper> 

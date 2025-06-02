@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('添加技能', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2 th:text="${skill != null ? '编辑技能' : '添加技能'}">添加技能</h2>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/actor_skill/save}" method="post" class="form-horizontal">
+            <input type="hidden" name="skillId" th:if="${skill != null}" th:value="${skill.skillId}"/>
+            
+            <div class="form-group">
+                <label for="skillName" class="control-label">填写技能名称</label>
+                <div class="control-box">
+                    <input type="text" id="skillName" name="skillName" class="form-control" 
+                           th:value="${skill != null ? skill.skillName : ''}" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a th:href="@{/actor_skill/list}" class="btn btn-secondary">返回</a>
+            </div>
+        </form>
+    </div>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .control-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .control-box {
+            width: 100%;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</div>
+</html> 

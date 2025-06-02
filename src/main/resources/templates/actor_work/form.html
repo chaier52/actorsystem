@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('我的作品', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2 th:text="${work != null && work.workId != null ? '编辑作品' : '添加作品'}">添加作品</h2>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/actor_work/save}" method="post" class="form-horizontal">
+            <input type="hidden" name="workId" th:if="${work != null}" th:value="${work.workId}"/>
+            
+            <div class="form-group">
+                <label for="workName" class="control-label">作品名称</label>
+                <div class="control-box">
+                    <input type="text" id="workName" name="workName" class="form-control" 
+                           th:value="${work != null ? work.workName : ''}" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="releaseDate" class="control-label">发行日期</label>
+                <div class="control-box">
+                    <input type="date" id="releaseDate" name="releaseDate" class="form-control" 
+                           th:value="${work != null ? work.releaseDate : ''}" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="director" class="control-label">导演</label>
+                <div class="control-box">
+                    <input type="text" id="director" name="director" class="form-control" 
+                           th:value="${work != null ? work.director : ''}" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="genre" class="control-label">类型</label>
+                <div class="control-box">
+                    <input type="text" id="genre" name="genre" class="form-control" 
+                           th:value="${work != null ? work.genre : ''}" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a th:href="@{/actor_work/list}" class="btn btn-secondary">返回</a>
+            </div>
+        </form>
+    </div>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .control-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .control-box {
+            width: 100%;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</div>
+</html> 

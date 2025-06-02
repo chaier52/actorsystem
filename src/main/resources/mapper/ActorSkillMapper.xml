@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ActorSkillMapper">
+    <!-- 根据演员ID查询技能 -->
+    <select id="getSkillsByActorId" resultType="com.javaee.po.ActorSkill">
+        SELECT as_rel.actor_id, as_rel.skill_id, s.skill_name
+        FROM actor_skill as_rel
+        JOIN skill s ON s.skill_id = as_rel.skill_id
+        WHERE as_rel.actor_id = #{actorId}
+    </select>
+
+    <!-- 根据技能ID查询技能 -->
+    <select id="getSkillById" resultType="com.javaee.po.ActorSkill">
+        SELECT * FROM actor_skill
+        WHERE skill_id = #{skillId}
+    </select>
+
+    <!-- 插入技能 -->
+    <insert id="insert">
+        INSERT INTO actor_skill (actor_id, skill_id)
+        VALUES (#{actorId}, #{skillId})
+    </insert>
+
+    <!-- 更新技能 -->
+    <update id="update" parameterType="com.javaee.po.ActorSkill">
+        UPDATE actor_skill
+        SET skill_name = #{skillName},
+            skill_type = #{skillType},
+            proficiency = #{proficiency}
+        WHERE skill_id = #{skillId} AND actor_id = #{actorId}
+    </update>
+
+    <!-- 删除技能 -->
+    <delete id="delete">
+        DELETE FROM actor_skill 
+        WHERE actor_id = #{actorId} AND skill_id = #{skillId}
+    </delete>
+
+    <!-- 删除演员所有技能关系 -->
+    <delete id="deleteByActorId">
+        DELETE FROM actor_skill 
+        WHERE actor_id = #{actorId}
+    </delete>
+</mapper> 

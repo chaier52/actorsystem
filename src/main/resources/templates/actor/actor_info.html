@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('个人信息', ~{::content})}">
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>个人管理</h2>
+    </div>
+
+    <div class="form-container">
+        <!-- 基本信息 -->
+        <div class="section">
+            <h3>基本信息</h3>
+            <div class="form-group">
+                <label>姓名：</label>
+                <div class="form-control" th:text="${actor.name}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>性别：</label>
+                <div class="form-control" th:text="${actor.gender}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>年龄：</label>
+                <div class="form-control" th:text="${actor.age}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>出生地：</label>
+                <div class="form-control" th:text="${actor.birthPlace}"></div>
+            </div>
+
+            <div class="form-group">
+                <label>演员类型：</label>
+                <div class="form-control" th:text="${actor.actorType != null ? actor.actorType.actor_TypeName : '无'}"></div>
+            </div>
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="section">
+            <h3>联系方式</h3>
+            <div class="form-group">
+                <label>电话：</label>
+                <div class="form-control" th:text="${contact != null ? contact.phone : '无'}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>邮箱：</label>
+                <div class="form-control" th:text="${contact != null ? contact.email : '无'}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>地址：</label>
+                <div class="form-control" th:text="${contact != null ? contact.address : '无'}"></div>
+            </div>
+        </div>
+
+        <!-- 技能 -->
+        <div class="section">
+            <h3>技能</h3>
+            <div class="form-group">
+                <div class="form-control" th:if="${skill != null and !skill.empty}" th:each="s : ${skill}" th:text="${s.skillName}"></div>
+                <div class="form-control" th:if="${skill == null or skill.empty}">无</div>
+            </div>
+        </div>
+
+        <!-- 奖项 -->
+        <div class="section">
+            <h3>奖项</h3>
+            <div class="form-group">
+                <div class="form-control" th:if="${award != null and !award.empty}" th:each="a : ${award}" th:text="${a.awardName + ' (' + a.awardYear + ')'}"></div>
+                <div class="form-control" th:if="${award == null or award.empty}">无</div>
+            </div>
+        </div>
+
+        <!-- 作品 -->
+        <div class="section">
+            <h3>作品</h3>
+            <div class="form-group">
+                <div class="form-control" th:if="${work != null and !work.empty}" th:each="w : ${work}" th:text="${w.workName + ' (' + w.releaseDate + ')'}"></div>
+                <div class="form-control" th:if="${work == null or work.empty}">无</div>
+            </div>
+        </div>
+
+        <!-- 合同 -->
+        <div class="section">
+            <h3>合同</h3>
+            <div class="form-group">
+                <div class="form-control" th:if="${contract != null and !contract.empty}" th:each="c : ${contract}" th:text="${c.signStart + ' 至 ' + c.signEnd}"></div>
+                <div class="form-control" th:if="${contract == null or contract.empty}">无</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <a class="btn btn-primary" th:href="@{/actor/detail_form}">编辑个人信息</a>
+        </div>
+    </div>
+
+    <style>
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</div>
+</html> 

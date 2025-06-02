@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('演员列表', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>演员列表</h2>
+    </div>
+        
+    <div class="search-box">
+        <form th:action="@{/actor/actor_list}" method="get" class="search-form">
+            <input type="text" name="keyword" th:value="${param.keyword}" placeholder="搜索演员姓名..." class="form-control">
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>出生地</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="actor : ${actors}">
+                    <td th:text="${actor.name}"></td>
+                    <td th:text="${actor.gender}"></td>
+                    <td th:text="${actor.age}"></td>
+                    <td th:text="${actor.birthPlace}"></td>
+                    <td>
+                        <a th:href="@{/actor/detail/{id}(id=${actor.actorId})}" class="btn btn-primary">查看</a>
+                        <a th:href="@{/actor/form(id=${actor.actorId})}" class="btn-edit">编辑</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>

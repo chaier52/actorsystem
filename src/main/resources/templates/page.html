@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('系统主页', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div th:if="${session.role == 'ADMIN'}">
+        <h2>管理员控制台</h2>
+        <p>欢迎使用演员管理系统，请选择右侧功能</p>
+    </div>
+    <div th:if="${session.role == 'ACTOR'}">
+        <h2>演员工作台</h2>
+        <p>欢迎使用演员管理系统，请选择右侧功能</p>
+    </div>
+</div>
+</html>

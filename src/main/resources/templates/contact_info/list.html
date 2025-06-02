@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('联系方式管理', ~{::content})}">
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>联系方式管理</h2>
+    </div>
+
+    <div class="action-box">
+        <a th:href="@{/contact_info/add}" class="btn btn-primary">添加联系方式</a>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>演员ID</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>地址</th>
+                    <th>紧急联系人</th>
+                    <th>紧急联系电话</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="contact : ${contacts}">
+                    <td th:text="${contact.contactId}"></td>
+                    <td th:text="${contact.actorId}"></td>
+                    <td th:text="${contact.phone}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td th:text="${contact.address}"></td>
+                    <td th:text="${contact.emergencyContact}"></td>
+                    <td th:text="${contact.emergencyPhone}"></td>
+                    <td>
+                        <a th:href="@{/contact_info/edit/{id}(id=${contact.contactId})}" class="btn-edit">编辑</a>
+                        <a th:href="@{/contact_info/delete/{id}(id=${contact.contactId})}" 
+                           class="btn-delete"
+                           onclick="return confirm('确定要删除这个联系方式吗？')">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ActorAwardMapper">
+    <!-- 根据演员ID查询奖项 -->
+    <select id="getAwardsByActorId" resultType="com.javaee.po.Award">
+        SELECT a.* 
+        FROM award a
+        INNER JOIN actor_award aa ON a.award_id = aa.award_id
+        WHERE aa.actor_id = #{actorId}
+    </select>
+
+    <!-- 更新演员奖项 -->
+    <delete id="deleteActorAwards">
+        DELETE FROM actor_award WHERE actor_id = #{actorId}
+    </delete>
+
+    <insert id="insertActorAwards">
+        INSERT INTO actor_award(actor_id, award_id) VALUES
+        <foreach collection="awardIds" item="awardId" separator=",">
+            (#{actorId}, #{awardId})
+        </foreach>
+    </insert>
+
+    <insert id="insert">
+        INSERT INTO actor_award (actor_id, award_id)
+        VALUES (#{actorId}, #{awardId})
+    </insert>
+
+    <delete id="deleteByAwardId">
+        DELETE FROM actor_award WHERE award_id = #{awardId}
+    </delete>
+
+    <delete id="deleteByActorId">
+        DELETE FROM actor_award WHERE actor_id = #{actorId}
+    </delete>
+</mapper> 

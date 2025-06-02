@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div id="login-box">
+    <div class="login-panel">
+        <h2>请选择身份登录</h2>
+        <form action="/user/login" method="post" th:action="@{/user/login}">
+            <div class="form-row">
+                <label>身份：</label>
+                <select name="role" required>
+                    <option value="">--请选择--</option>
+                    <option value="ADMIN">管理员</option>
+                    <option value="ACTOR">演员</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>用户名：</label>
+                <input type="text" name="username" required />
+            </div>
+            <div class="form-row">
+                <label>密码：</label>
+                <input type="password" name="password" required />
+            </div>
+            <div class="form-row btn-row">
+                <button type="submit">登录</button>
+            </div>
+            <div class="error-message" th:if="${error}" th:text="${error}"></div>
+        </form>
+        <div class="register-link">
+            <a th:href="@{/user/register}">注册</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

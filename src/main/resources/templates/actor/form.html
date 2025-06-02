@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('演员表单', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>演员表单</h2>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/actor/save}" method="post">
+            <input type="hidden" name="actorId" th:value="${actor != null ? actor.actorId : ''}" />
+            
+            <div class="form-group">
+                <label for="name">姓名：</label>
+                <input class="form-control" id="name" name="name" th:value="${actor != null ? actor.name : ''}" required/>
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">性别：</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option value="">--请选择--</option>
+                    <option value="男" th:selected="${actor != null and actor.gender == '男'}">男</option>
+                    <option value="女" th:selected="${actor != null and actor.gender == '女'}">女</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">年龄：</label>
+                <input type="number" class="form-control" id="age" name="age" th:value="${actor != null ? actor.age : ''}" required/>
+            </div>
+            
+            <div class="form-group">
+                <label for="birthPlace">出生地：</label>
+                <input class="form-control" id="birthPlace" name="birthPlace" th:value="${actor != null ? actor.birthPlace : ''}" required/>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">保存</button>
+                <a class="btn btn-secondary" th:href="@{/actor/actor_list}">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+</html>

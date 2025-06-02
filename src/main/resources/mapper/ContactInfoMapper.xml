@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ContactInfoMapper">
+    <!-- 根据演员ID查询联系方式 -->
+    <select id="getByActorId" resultType="com.javaee.po.ContactInfo">
+        SELECT * FROM contact_info WHERE actor_id = #{actorId}
+    </select>
+
+    <insert id="insert" parameterType="com.javaee.po.ContactInfo" useGeneratedKeys="true" keyProperty="contactId">
+        INSERT INTO contact_info (actor_id, phone, email, address)
+        VALUES (#{actorId}, #{phone}, #{email}, #{address})
+    </insert>
+
+    <update id="update" parameterType="com.javaee.po.ContactInfo">
+        UPDATE contact_info     
+        SET phone = #{phone},
+            email = #{email},
+            address = #{address}
+        WHERE actor_id = #{actorId}
+    </update>   
+
+    <delete id="deleteByActorId">
+        DELETE FROM contact_info WHERE actor_id = #{actorId}
+    </delete>
+
+    <delete id="deleteByContactId">
+        DELETE FROM contact_info WHERE contact_id = #{contactId}
+    </delete>
+
+</mapper> 

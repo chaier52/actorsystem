@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ActorTypeMapper">
+
+    <resultMap id="ActorTypeMap" type="com.javaee.po.ActorType">
+        <id property="actor_TypeId" column="type_id"/>
+        <result property="actor_TypeName" column="type_name"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="ActorTypeMap">
+        SELECT type_id, type_name
+        FROM actor_type
+    </select>
+
+    <select id="findById" resultMap="ActorTypeMap">
+        SELECT type_id, type_name
+        FROM actor_type
+        WHERE type_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.javaee.po.ActorType" useGeneratedKeys="true" keyProperty="actor_TypeId">
+        INSERT INTO actor_type (type_name)
+        VALUES (#{actor_TypeName})
+    </insert>
+
+    <update id="update" parameterType="com.javaee.po.ActorType">
+        UPDATE actor_type
+        SET type_name = #{actor_TypeName}
+        WHERE type_id = #{actor_TypeId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM actor_type WHERE type_id = #{id}
+    </delete>
+        
+</mapper> 

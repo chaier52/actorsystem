@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('合同管理', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2 th:text="${contract.contractId == null ? '添加合同' : '编辑合同'}"></h2>
+    </div>
+
+    <div class="content-wrapper">
+        <form th:action="@{/contract/save}" method="post" class="form-container">
+            <input type="hidden" name="contractId" th:value="${contract.contractId}">
+            
+            <div class="form-group">
+                <label for="actorId">选择演员：</label>
+                <select name="actorId" id="actorId" class="form-control" required>
+                    <option value="">请选择演员</option>
+                    <option th:each="actor : ${actors}"
+                            th:value="${actor.actorId}"
+                            th:text="${actor.name}"
+                            th:selected="${contract.actorId == actor.actorId}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="signStart">签约开始日期：</label>
+                <input type="date" name="signStart" id="signStart" class="form-control" 
+                       th:value="${contract.signStart != null ? #dates.format(contract.signStart, 'yyyy-MM-dd') : ''}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signEnd">签约结束日期：</label>
+                <input type="date" name="signEnd" id="signEnd" class="form-control" 
+                       th:value="${contract.signEnd != null ? #dates.format(contract.signEnd, 'yyyy-MM-dd') : ''}" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a th:href="@{/contract/list}" class="btn btn-secondary">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+</html> 

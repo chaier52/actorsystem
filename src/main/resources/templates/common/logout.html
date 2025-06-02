@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('注销确认', ~{::content})}">
+<div th:fragment="content" class="main">
+    <h2>确定要注销吗？</h2>
+    <form th:action="@{/common/logout}" method="post">
+        <button type="submit" class="btn btn-danger">确认注销</button>
+        <a th:href="@{/page}" class="btn btn-secondary" style="margin-left: 10px;">取消</a>
+    </form>
+</div>
+</html>

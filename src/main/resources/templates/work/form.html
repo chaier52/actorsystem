@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('添加作品', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>添加作品</h2>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/actor_work/save}" method="post">
+            <div class="form-group">
+                <label for="workId">选择作品：</label>
+                <select id="workId" name="workId" class="form-control" required>
+                    <option value="">--请选择作品--</option>
+                    <option th:each="work : ${allWorks}"
+                            th:value="${work.workId}"
+                            th:text="${work.workName + ' (' + #dates.format(work.releaseDate, 'yyyy-MM-dd') + ')'}"
+                            th:if="${!myWorks.contains(work)}">
+                    </option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a class="btn btn-secondary" th:href="@{/actor_work/list}">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+</html> 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('修改密码', ~{::content})}">
+<div th:fragment="content" class="main">
+    <h2>修改密码</h2>
+    <form action="/common/modifypwd" method="post" style="max-width: 400px;">
+        <div class="form-row">
+            <label>旧密码：
+                <input type="password" name="oldPassword" required class="form-control" />
+            </label>
+        </div>
+        <div class="form-row">
+            <label>新密码：
+                <input type="password" name="newPassword" required class="form-control" />
+            </label>
+        </div>
+        <div class="form-row">
+            <label>确认新密码：
+                <input type="password" name="confirmPassword" required class="form-control" />
+            </label>
+        </div>
+        <div class="btn-row">
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+        <p th:if="${error}" style="color:red;" th:text="${error}"></p>
+        <p th:if="${success}" style="color:green;" th:text="${success}"></p>
+    </form>
+</div>
+</html>

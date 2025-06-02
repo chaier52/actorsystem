@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout(${skill.skillId != null ? '编辑技能' : '添加技能'}, ~{::content})}">
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2 th:text="${skill.skillId != null ? '编辑技能' : '添加技能'}"></h2>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/skill/save}" method="post" th:object="${skill}">
+            <input type="hidden" th:field="*{skillId}"/>
+            
+            <div class="form-group">
+                <label for="skillName">技能名称：</label>
+                <input type="text" class="form-control" id="skillName" th:field="*{skillName}" required/>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a class="btn btn-secondary" th:href="@{/skill/list}">返回</a>
+            </div>
+        </form>
+    </div>
+</div>
+</html> 

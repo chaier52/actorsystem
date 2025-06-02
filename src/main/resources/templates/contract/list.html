@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('合同管理', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>合同列表</h2>
+    </div>
+    </style>
+    <div class="search-box">
+        <div class="action-box">
+            <a th:href="@{/contract/form}" class="btn btn-primary">添加合同</a>
+        </div>
+        <form th:action="@{/contract/list}" method="get" class="search-form">
+            <input type="text" name="keyword" th:value="${param.keyword}" placeholder="按演员姓名搜索合同..." class="form-control">
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>演员姓名</th>
+                    <th>签约开始日期</th>
+                    <th>签约结束日期</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="contract : ${contracts}">
+                    <td th:text="${contract.actor != null ? contract.actor.name : ''}"></td>
+                    <td th:text="${#dates.format(contract.signStart, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(contract.signEnd, 'yyyy-MM-dd')}"></td>
+                    <td>
+                        <a th:href="@{/contract/form(id=${contract.contractId})}" class="btn-edit">编辑</a>
+                        <form th:action="@{/contract/delete/{id}(id=${contract.contractId})}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn-delete" onclick="return confirm('确定要删除这个合同吗？')">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

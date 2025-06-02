@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('我的作品', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>我的作品</h2>
+    </div>
+   
+    <div class="search-box">
+        <div class="action-box">
+            <a th:href="@{/actor_work/form}" class="btn btn-primary">添加作品</a>
+        </div>
+        <form th:action="@{/actor_work/list}" method="get" class="search-form">
+            <input type="text" name="keyword" th:value="${param.keyword}" placeholder="搜索作品名称..." class="form-control">
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>作品名称</th>
+                    <th>发行日期</th>
+                    <th>导演</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${works.empty}">
+                    <td colspan="5">暂无作品</td>
+                </tr>
+                <tr th:each="work : ${works}">
+                    <td th:text="${work.workName}"></td>
+                    <td th:text="${work.releaseDate}"></td>
+                    <td th:text="${work.director}"></td>
+                    <td th:text="${work.genre}"></td>
+                    <td>
+                        <a th:href="@{/actor_work/form(id=${work.workId})}" class="btn-edit">编辑</a>
+                        <form th:action="@{/actor_work/delete}" method="post" style="display: inline;">
+                            <input type="hidden" name="workId" th:value="${work.workId}"/>
+                            <button type="submit" class="btn-delete" onclick="return confirm('确定要删除这个作品吗？')">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

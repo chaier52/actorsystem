@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('我的技能', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>我的技能</h2>
+    </div>
+   
+    <div class="search-box">
+        <div class="action-box">
+            <a th:href="@{/actor_skill/form}" class="btn btn-primary">添加技能</a>
+        </div>
+        <form th:action="@{/actor_skill/list}" method="get" class="search-form">
+            <input type="text" name="keyword" th:value="${param.keyword}" placeholder="搜索技能名称..." class="form-control">
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>技能名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${skills.empty}">
+                    <td colspan="2">暂无技能</td>
+                </tr>
+                <tr th:each="skill : ${skills}">
+                    <td th:text="${skill.skillName}"></td>
+                    <td>
+                        <a th:href="@{/actor_skill/form(id=${skill.skillId})}" class="btn-edit">编辑</a>
+                        <form th:action="@{/actor_skill/delete}" method="post" style="display: inline;">
+                            <input type="hidden" name="skillId" th:value="${skill.skillId}"/>
+                            <button type="submit" class="btn-delete" onclick="return confirm('确定要删除这个技能吗？')">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

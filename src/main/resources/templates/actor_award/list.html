@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('演员获奖列表', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>演员获奖列表</h2>
+    </div>
+   
+        
+    <div class="search-box">
+        <div class="action-box">
+            <a th:href="@{/actor_award/form}" class="btn btn-primary">添加奖项</a>
+        </div>
+        <form th:action="@{/actor_award/list}" method="get" class="search-form">
+            <input type="text" name="keyword" th:value="${param.keyword}" placeholder="搜索奖项名称..." class="form-control">
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>奖项名称</th>
+                    <th>获奖年份</th>
+                    <th>获奖演员</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="award : ${awards}">
+                    <td th:text="${award.awardName}"></td>
+                    <td th:text="${award.awardYear}"></td>
+                    <td th:text="${award.actorName}"></td>
+                    <td>
+                        <a th:href="@{/actor_award/form(id=${award.awardId})}" class="btn-edit">编辑</a>
+                        <form th:action="@{/actor_award/delete/{id}(id=${award.awardId})}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn-delete" onclick="return confirm('确定要删除这个获奖记录吗？')">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

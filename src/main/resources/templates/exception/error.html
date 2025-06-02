@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('错误', ~{::content})}">
+<div th:fragment="content">
+    <div class="error-container">
+        <h2>发生错误</h2>
+        <p th:text="${error}">错误信息</p>
+        <a th:href="@{/user/user_list}" class="btn btn-primary">返回用户列表</a>
+    </div>
+</div>
+</html>

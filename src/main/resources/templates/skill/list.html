@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('技能管理', ~{::content})}">
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>技能管理</h2>
+        <div class="btn-group">
+            <a class="btn btn-primary" th:href="@{/skill/form}">添加技能</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>技能名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${skills.empty}">
+                    <td colspan="2">暂无技能</td>
+                </tr>
+                <tr th:each="skill : ${skills}">
+                    <td th:text="${skill.skillName}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" th:href="@{/skill/form(id=${skill.skillId})}">编辑</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/skill/delete/{id}(id=${skill.skillId})}"
+                           onclick="return confirm('确定要删除这个技能吗？')">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html> 

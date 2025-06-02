@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('演员类型管理', ~{::content})}">
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2>演员类型管理</h2>
+    </div>
+    <div class="action-box">
+        <a th:href="@{/actor_type/add}" class="btn btn-primary">添加演员类型</a>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>类型名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="type : ${types}">
+                <td th:text="${type.typeId}"></td>
+                <td th:text="${type.typeName}"></td>
+                <td>
+                    <a th:href="@{/actor_type/edit/{id}(id=${type.typeId})}" class="btn-edit">编辑</a>
+                    <a th:href="@{/actor_type/delete/{id}(id=${type.typeId})}" class="btn-delete" onclick="return confirm('确定要删除这个演员类型吗？')">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</html> 

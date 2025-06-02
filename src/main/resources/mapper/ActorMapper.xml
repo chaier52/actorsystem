@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ActorMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ActorMap" type="com.javaee.po.Actor">
+        <id property="actorId" column="actor_id"/>
+        <result property="typeId" column="type_id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="age" column="age"/>
+        <result property="birthPlace" column="birth_place"/>
+        <association property="actorType" javaType="com.javaee.po.ActorType">
+            <id property="actor_TypeId" column="type_id"/>
+            <result property="actor_TypeName" column="type_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 查询所有或按关键字-->
+    <select id="listAllActor" resultMap="ActorMap">
+        SELECT a.*, at.type_name 
+        FROM actor a
+        LEFT JOIN actor_type at ON a.type_id = at.type_id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND a.name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据ID查找 -->
+    <select id="getById" resultMap="ActorMap">
+        SELECT a.*, at.type_name 
+        FROM actor a
+        LEFT JOIN actor_type at ON a.type_id = at.type_id
+        WHERE a.actor_id = #{id}
+    </select>
+
+    <!-- 根据名字查找 -->
+    <select id="getByName" resultMap="ActorMap">
+        SELECT a.*, at.type_name 
+        FROM actor a
+        LEFT JOIN actor_type at ON a.type_id = at.type_id
+        WHERE a.name = #{name} LIMIT 1
+    </select>
+
+    <!-- 插入新纪录 -->
+    <insert id="addActor" parameterType="com.javaee.po.Actor" useGeneratedKeys="true" keyProperty="actorId">
+        INSERT INTO actor(name, gender, age, birth_place, type_id)
+        VALUES(#{name}, #{gender}, #{age}, #{birthPlace}, #{typeId})
+    </insert>
+
+    <!-- 更新记录 -->
+    <update id="updateActor" parameterType="com.javaee.po.Actor">
+        UPDATE actor
+        SET name = #{name},
+            gender = #{gender},
+            age = #{age},
+            birth_place = #{birthPlace},
+            type_id = #{typeId}
+        WHERE actor_id = #{actorId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteActor" parameterType="int">
+        DELETE FROM actor WHERE actor_id = #{id}
+    </delete>
+
+</mapper>

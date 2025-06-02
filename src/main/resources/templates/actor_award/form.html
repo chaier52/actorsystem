@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout('演员获奖表单', ~{::content})}">
+
+<div th:fragment="content" class="main">
+    <div class="page-header">
+        <h2 th:text="${award.awardId == null ? '添加演员获奖' : '编辑演员获奖'}"></h2>
+    </div>
+
+    <!-- 错误消息显示 -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        <span th:switch="${param.error[0]}">
+            <span th:case="'year-invalid'">年份必须在1901到2155之间</span>
+            <span th:case="'create-failed'">创建奖项失败，请重试</span>
+            <span th:case="'update-failed'">更新奖项失败，请重试</span>
+            <span th:case="'system-error'">系统错误，请联系管理员</span>
+            <span th:case="*">操作失败，请重试</span>
+        </span>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/actor_award/save}" method="post">
+            <input type="hidden" name="awardId" th:value="${award.awardId}"/>
+            
+            <div class="form-group">
+                <label for="actorId">选择演员：</label>
+                <select name="actorId" id="actorId" class="form-control" required>
+                    <option value="">请选择演员</option>
+                    <option th:each="actor : ${actors}"
+                            th:value="${actor.actorId}"
+                            th:text="${actor.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="awardName">奖项名称：</label>
+                <input class="form-control" id="awardName" name="awardName" th:value="${award.awardName}" required/>
+            </div>
+            
+            <div class="form-group">
+                <label for="awardYear">获奖年份：</label>
+                <input type="number" class="form-control" id="awardYear" name="awardYear" 
+                       th:value="${award.awardYear}" 
+                       min="1901" max="2155" 
+                       required/>
+                <small class="form-text text-muted">年份必须在1901到2155之间</small>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">保存</button>
+                <a class="btn btn-secondary" th:href="@{/actor_award/list}">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+</html> 

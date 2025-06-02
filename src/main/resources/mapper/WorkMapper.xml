@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javaee.mapper.WorkMapper">
+
+    <!-- 1. 根据关键词查询所有作品 -->
+    <select id="listAllWorks" parameterType="String" resultType="com.javaee.po.Work">
+        SELECT work_id AS workId,
+            work_name AS workName,
+            release_date AS releaseDate,
+            director,
+            genre
+        FROM work
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (work_name LIKE CONCAT('%', #{keyword}, '%')
+                OR director LIKE CONCAT('%', #{keyword}, '%')
+                OR genre LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <!-- 2. 根据 ID 查询作品 -->
+    <select id="getById" parameterType="int" resultType="com.javaee.po.Work">
+        SELECT work_id AS workId,
+               work_name AS workName,
+               release_date AS releaseDate,
+               director,
+               genre
+        FROM work
+        WHERE work_id = #{id}
+    </select>
+
+    <!-- 3. 添加作品 -->
+    <insert id="addWork" parameterType="com.javaee.po.Work">
+        INSERT INTO work (work_name, release_date, director, genre)
+        VALUES (#{workName}, #{releaseDate}, #{director}, #{genre})
+    </insert>
+
+    <!-- 4. 更新作品 -->
+    <update id="updateWork" parameterType="com.javaee.po.Work">
+        UPDATE work
+            SET work_name = #{workName},
+            release_date = #{releaseDate},
+            director = #{director},
+            genre = #{genre}
+        WHERE work_id = #{workId}
+    </update>
+
+    <!-- 5. 删除作品 -->
+    <delete id="deleteWork" parameterType="int">
+        DELETE FROM work WHERE work_id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.javaee.po.Work">
+        SELECT 
+            w.work_id as workId,
+            w.work_name as workName,
+            w.release_date as releaseDate,
+            w.director as director,
+            w.genre as genre
+        FROM work w
+    </select>
+
+    <select id="findById" resultType="com.javaee.po.Work">
+        SELECT 
+            w.work_id as workId,
+            w.work_name as workName,
+            w.release_date as releaseDate,
+            w.director as director,
+            w.genre as genre
+        FROM work w
+        WHERE w.work_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.javaee.po.Work" useGeneratedKeys="true" keyProperty="workId">
+        INSERT INTO work (work_name, release_date, director, genre)
+        VALUES (#{workName}, #{releaseDate}, #{director}, #{genre})
+    </insert>
+
+    <update id="update" parameterType="com.javaee.po.Work">
+        UPDATE work
+        SET work_name = #{workName},
+            release_date = #{releaseDate},
+            director = #{director},
+            genre = #{genre}
+        WHERE work_id = #{workId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM work WHERE work_id = #{id}
+    </delete>
+
+    <select id="findAllGenres" resultType="com.javaee.po.Work">
+        SELECT 
+            DISTINCT genre as genre 
+        FROM work
+    </select>
+
+</mapper>

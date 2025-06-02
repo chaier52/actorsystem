@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.mapper.ContractMapper">
+    
+    <resultMap id="contractMap" type="com.javaee.po.Contract">
+        <id property="contractId" column="contract_id"/>
+        <result property="actorId" column="actor_id"/>
+        <result property="signStart" column="sign_start"/>
+        <result property="signEnd" column="sign_end"/>
+        <association property="actor" javaType="com.javaee.po.Actor">
+            <id property="actorId" column="actor_id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+    <!-- 查询所有合同 -->
+    <select id="listAllContracts" resultMap="contractMap">
+        SELECT c.*, a.name 
+        FROM contract c
+        LEFT JOIN actor a ON c.actor_id = a.actor_id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND a.name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY c.contract_id DESC
+    </select>
+
+    <!-- 根据ID查询合同 -->
+    <select id="getById" resultMap="contractMap">
+        SELECT c.*, a.name 
+        FROM contract c
+        LEFT JOIN actor a ON c.actor_id = a.actor_id
+        WHERE c.contract_id = #{id}
+    </select>
+
+    <!-- 根据演员ID查询合同 -->
+    <select id="getByActorId" resultMap="contractMap">
+        SELECT c.*, a.name 
+        FROM contract c
+        LEFT JOIN actor a ON c.actor_id = a.actor_id
+        WHERE c.actor_id = #{actorId}
+    </select>
+
+    <!-- 插入合同 -->
+    <insert id="insert" parameterType="com.javaee.po.Contract" useGeneratedKeys="true" keyProperty="contractId">
+        INSERT INTO contract (actor_id, sign_start, sign_end)
+        VALUES (#{actorId}, #{signStart}, #{signEnd})
+    </insert>
+
+    <!-- 更新合同 -->
+    <update id="update" parameterType="com.javaee.po.Contract">
+        UPDATE contract
+        SET actor_id = #{actorId},
+            sign_start = #{signStart},
+            sign_end = #{signEnd}
+        WHERE contract_id = #{contractId}
+    </update>
+
+    <!-- 删除合同 -->
+    <delete id="delete">
+        DELETE FROM contract WHERE contract_id = #{id}
+    </delete>
+</mapper> 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${title}">管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="box-view">
+    <div class="top">
+        欢迎，<span th:text="${session.username}">用户</span>！
+    </div>
+    <div class="container">
+        <div class="main" th:replace="${content}"></div>
+        <div class="right-menu">
+            <ul class="nav-list">
+                <!-- 管理员菜单 -->
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/user/user_list}" class="nav-link">用户管理</a>
+                </li>
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/actor/actor_list}" class="nav-link">演员管理</a>
+                </li>
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/contract/list}" class="nav-link">合同管理</a>
+                </li>
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/actor_award/list}" class="nav-link">奖项管理</a>
+                </li>
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/common/modifypwd}" class="nav-link">修改密码</a>
+                </li>
+                <li th:if="${session.role == 'ADMIN'}">
+                    <a th:href="@{/common/logout}" class="nav-link">注销</a>
+                </li>
+
+                <!-- 演员菜单 -->
+                <li th:if="${session.role == 'ACTOR'}">
+                    <a th:href="@{/actor/actor_info}" class="nav-link">个人管理</a>
+                </li>
+                <li th:if="${session.role == 'ACTOR'}">
+                    <a th:href="@{/actor_work/list}" class="nav-link">作品管理</a>
+                </li>
+                <li th:if="${session.role == 'ACTOR'}">
+                    <a th:href="@{/actor_skill/list}" class="nav-link">技能管理</a>
+                </li>
+                <li th:if="${session.role == 'ACTOR'}">
+                    <a th:href="@{/common/modifypwd}" class="nav-link">修改密码</a>
+                </li>
+                <li th:if="${session.role == 'ACTOR'}">
+                    <a th:href="@{/common/logout}" class="nav-link">注销</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
